@@ -22,7 +22,7 @@ export const getFeaturedProducts = async(req,res)=>{
     if(featuredProducts){
         return res.json(JSON.parse(featuredProducts)); 
     }
-    featuredProducts = await Product.find({isFeatured:true}).lean(); 
+    featuredProducts = await Product.find({isFeatured:true}).lean(); //lean convert mongodb document to plain js : 
     if(!featuredProducts){
         return res.status(400).json({
             message:"no featured products"
@@ -57,6 +57,7 @@ export const createProduct = async(req,res)=>{
             price,
             image:cloudinaryResponse?.secure_url?cloudinaryResponse.secure_url:"",
             category,
+            isFeatured,
         })
         res.status(201).json({
         product
@@ -86,7 +87,7 @@ export const deleteProduct = async(req,res)=>{
                 console.log("error deleting error from cloudinary : ", error); 
             }
         }
-        await Product.findByIdAndDelete(req.params.id); 
+        await Product.findByIdAndDelete(req.params.id);
         res.json({
             message:"product deleted successfully"
         })
