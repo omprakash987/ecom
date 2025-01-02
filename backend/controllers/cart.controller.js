@@ -50,12 +50,12 @@ export const updateQuantity = async(req,res)=>{
 
     try {
         const {id:productId} = req.params;  
-        const quantity = req.body; 
+        const {quantity} = req.body; 
         const user = req.user; 
         const existingItem = user.cartItems.find((item)=>item.id === productId); 
 
         if(existingItem){
-            if(quantity == 0){
+            if(quantity === 0){
                 user.cartItems = user.cartItems.filter((item)=>item.id !== productId) ;
                 await user.save(); 
                 return res.json(user.cartItems); 
@@ -69,7 +69,7 @@ export const updateQuantity = async(req,res)=>{
     
     } catch (error) {
         res.status(500).json({
-            message:"internal server error "
+            message:"internal server error yahi se "
         })
     }
 }

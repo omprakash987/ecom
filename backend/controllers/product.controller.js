@@ -73,7 +73,7 @@ export const createProduct = async(req,res)=>{
 export const deleteProduct = async(req,res)=>{
     try {
         const product = await Product.findById(req.params.id); 
-
+        console.log("product yahi se : ", product); 
         if(!product){
             return res.status(404).json({
                 message:"product not found"
@@ -131,7 +131,7 @@ export const getProductsByCategory = async(req,res)=>{
 
     try {
         const products = await Product.find({category}); 
-        res.json(products); 
+        res.json({products}); 
         
     } catch (error) {
         console.log("error : ", error); 
@@ -148,7 +148,7 @@ export const toggleFeaturedProduct = async(req,res)=>{
         const product = await Product.findById(req.params.id); 
         if(product){
             product.isFeatured = !product.isFeatured; 
-            const updatedProduct = await Product.save(); 
+            const updatedProduct = await product.save(); 
             await updateFeaturedProductCache(); 
             res.json(updatedProduct); 
         }else{
