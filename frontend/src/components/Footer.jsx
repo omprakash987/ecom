@@ -26,7 +26,9 @@ const Footer = () => {
             {/* Social */}
             <div className="flex space-x-4 mt-6">
               <Facebook className="w-5 h-5 text-black hover:text-gray-600 cursor-pointer" />
+              <Link to="https://instagram.com/muscleup24x7?igsh=MWsxb3Vjankwdmo1Mg==">
               <Instagram className="w-5 h-5 text-black hover:text-gray-600 cursor-pointer" />
+              </Link>
               <Twitter className="w-5 h-5 text-black hover:text-gray-600 cursor-pointer" />
               <Youtube className="w-5 h-5 text-black hover:text-gray-600 cursor-pointer" />
             </div>
@@ -77,8 +79,8 @@ const Footer = () => {
               Contact Us
             </h3>
             <ul className="space-y-3 text-gray-600 text-sm">
-              <li>Email: support@muscleup.com</li>
-              <li>Phone: +91 98765 43210</li>
+              <li>Email: muscleup24x7@gmail.com</li>
+              <li>Phone: +91 8595742156</li>
               <li>Mon - Sat: 9:00 AM - 6:00 PM</li>
               <li>New Delhi, India</li>
             </ul>

@@ -28,7 +28,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     "Vitamins And Supplements",
     "Health Food And Drinks",
     "Workout Gear",
-    "Nutrabay Top 10",
+    "Top 10",
     "Bestseller",
     "Magazine",
   ];
