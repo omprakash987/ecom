@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const CategoryItem = ({ category }) => {
   return (
-    <Link to={"/category" + category.href}>
+    <Link to={ category.href}>
       <div
         className="relative group h-96 w-full rounded-2xl overflow-hidden 
         cursor-pointer transform transition duration-500 

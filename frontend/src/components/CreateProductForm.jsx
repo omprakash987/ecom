@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { PlusCircle, Upload, Loader } from "lucide-react";
 import { useProductStore } from '../store/useProductStore';
-const categories = ["protein", "creatine","whey"];
+const categories = ["protein", "creatine","whey","preworkout"];
 
 const CreateProductForm = () => {
   const [newProduct, setNewProduct] = useState({

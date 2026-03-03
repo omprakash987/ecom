@@ -165,6 +165,24 @@ export const toggleFeaturedProduct = async(req,res)=>{
     }
 }
 
+export const getSearch = async(req,res)=>{
+     try {
+    const query = req.query.q;
+
+    if (!query) {
+      return res.json([]);
+    }
+
+    const products = await Product.find({
+      name: { $regex: query, $options: "i" }, // case insensitive search
+    });
+
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: "Search failed" });
+  }
+}
+
 async function updateFeaturedProductCache(){
     try {
         const featuredProducts = await Product.find({isFeatured:true}).lean(); 
@@ -174,3 +192,5 @@ async function updateFeaturedProductCache(){
         console.log("error updating featuredproduct :", error); 
     }
 }
+
+

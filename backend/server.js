@@ -8,6 +8,7 @@ import cartRoute from './routes/cart.route.js'
 import couponRoute from './routes/coupon.route.js'
 import paymentRoute from './routes/payment.route.js'
 import analyticsRoutes from './routes/analytics.route.js'
+import orderRoutes from './routes/order.route.js'
 import path from 'path'
 import cors from 'cors'
 
@@ -32,6 +33,7 @@ app.use("/api/cart",cartRoute);
 app.use("/api/coupon",couponRoute); 
 app.use("/api/payment",paymentRoute); 
 app.use("/api/analytics",analyticsRoutes); 
+app.use("/api/orders", orderRoutes);
 
 if(process.env.NODE_ENV==='production'){
     app.use(express.static(path.join(__dirname,"/frontend/dist"))); 

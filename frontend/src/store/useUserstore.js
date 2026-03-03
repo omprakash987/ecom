@@ -44,18 +44,15 @@ export const useUserStore = create((set,get)=>({
             toast.error("login error"); 
         }
     },
-    checkAuth:async()=>{
-        set({checkingAuth:true}); 
-        try {
-            const response = await axios.get("/auth/profile"); 
-            set({user:response.data,checkingAuth:false}); 
-
-            
-        } catch (error) {
-            set({checkingAuth:false,user:null}); 
-            console.log("error : ", error)
-        }
-    },
+    checkAuth: async () => {
+    set({checkingAuth:true}); 
+    try {
+        const response = await axios.get("/auth/profile"); 
+        set({user:response.data,checkingAuth:false}); 
+    } catch (error) {
+        set({checkingAuth:false,user:null}); 
+    }
+},
     logout:async()=>{
         try {
             await axios.post('/auth/logout'); 
@@ -88,7 +85,13 @@ axios.interceptors.response.use(
 	(response) => response,
 	async (error) => {
 		const originalRequest = error.config;
-		if (error.response?.status === 401 && !originalRequest._retry) {
+		if (
+    error.response?.status === 401 &&
+    !originalRequest._retry &&
+    !originalRequest.url.includes("/auth/login") &&
+    !originalRequest.url.includes("/auth/signup") &&
+    !originalRequest.url.includes("/auth/profile")
+) {
 			originalRequest._retry = true;
 
 			try {

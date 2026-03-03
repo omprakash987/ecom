@@ -6,49 +6,51 @@ const CartItem = ({ item }) => {
   const { removeFromCart, updateQuantity } = useCartStore();
 
   return (
-    <div className="rounded-2xl border border-gray-700 bg-gray-800/80 backdrop-blur-md p-5 shadow-lg hover:shadow-emerald-500/10 transition-all duration-300">
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-md transition duration-300">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        
+
         {/* Product Image */}
         <div className="shrink-0">
           <img
             src={item.image}
             alt={item.name}
-            className="h-24 w-24 md:h-32 md:w-32 object-cover rounded-xl border border-gray-700"
+            className="h-24 w-24 md:h-28 md:w-28 object-cover rounded-xl border border-gray-200"
           />
         </div>
 
         {/* Product Info */}
         <div className="flex-1 space-y-2">
-          <h3 className="text-lg md:text-xl font-semibold text-white hover:text-emerald-400 transition">
+          <h3 className="text-lg md:text-xl font-semibold text-black">
             {item.name}
           </h3>
 
-          <p className="text-sm text-gray-400 line-clamp-2">
+          <p className="text-sm text-gray-600 line-clamp-2">
             {item.description}
           </p>
 
-          <p className="text-xl font-bold text-emerald-400">
-            ${item.price.toFixed(2)}
+          <p className="text-xl font-bold text-black">
+            ₹{item.price.toFixed(2)}
           </p>
         </div>
 
-        {/* Quantity Controls */}
+        {/* Quantity + Remove */}
         <div className="flex flex-col items-end gap-4">
-          
-          <div className="flex items-center gap-3 bg-gray-700/60 px-3 py-2 rounded-xl">
+
+          {/* Quantity Controls */}
+          <div className="flex items-center gap-3 border border-gray-300 px-3 py-2 rounded-lg">
+
             <button
               disabled={item.quantity <= 1}
               onClick={() =>
                 item.quantity > 1 &&
                 updateQuantity(item._id, item.quantity - 1)
               }
-              className="p-1 rounded-lg bg-gray-600 hover:bg-gray-500 disabled:opacity-40 transition"
+              className="p-1 rounded-md hover:bg-gray-100 disabled:opacity-40 transition"
             >
-              <Minus size={16} className="text-white" />
+              <Minus size={16} className="text-black" />
             </button>
 
-            <span className="text-white font-semibold w-6 text-center">
+            <span className="text-black font-semibold w-6 text-center">
               {item.quantity}
             </span>
 
@@ -56,20 +58,21 @@ const CartItem = ({ item }) => {
               onClick={() =>
                 updateQuantity(item._id, item.quantity + 1)
               }
-              className="p-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 transition"
+              className="p-1 rounded-md hover:bg-gray-100 transition"
             >
-              <Plus size={16} className="text-white" />
+              <Plus size={16} className="text-black" />
             </button>
           </div>
 
           {/* Remove Button */}
           <button
             onClick={() => removeFromCart(item._id)}
-            className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition"
+            className="flex items-center gap-2 text-sm text-red-500 hover:text-red-600 transition"
           >
             <Trash size={16} />
             Remove
           </button>
+
         </div>
 
       </div>
