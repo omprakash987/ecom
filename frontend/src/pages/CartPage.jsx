@@ -11,15 +11,15 @@ const CartPage = () => {
   const { cart } = useCartStore();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 mt-10">
+    <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8 mt-10">
       <div className="mx-auto max-w-7xl">
 
         {/* Page Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-black mb-12">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-8 sm:mb-12">
           Your Shopping Cart
         </h1>
 
-        <div className="lg:flex lg:items-start lg:gap-12">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:gap-10">
 
           {/* LEFT SIDE */}
           <motion.div
@@ -29,15 +29,15 @@ const CartPage = () => {
             transition={{ duration: 0.4 }}
           >
             {cart.length === 0 ? (
-              <div className="bg-white rounded-2xl shadow border border-gray-100 p-10">
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow border border-gray-100 p-6 sm:p-10">
                 <EmptyCartUI />
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {cart.map((item) => (
                   <div
                     key={item._id}
-                    className="bg-white rounded-2xl shadow border border-gray-100 p-6"
+                    className="bg-white rounded-xl sm:rounded-2xl shadow border border-gray-100 p-4 sm:p-6"
                   >
                     <CartItem item={item} />
                   </div>
@@ -46,8 +46,8 @@ const CartPage = () => {
             )}
 
             {cart.length > 0 && (
-              <div className="mt-14 bg-white rounded-2xl shadow border border-gray-100 p-8">
-                <h2 className="text-2xl font-semibold text-black mb-8">
+              <div className="mt-10 sm:mt-14 bg-white rounded-xl sm:rounded-2xl shadow border border-gray-100 p-6 sm:p-8">
+                <h2 className="text-xl sm:text-2xl font-semibold text-black mb-6 sm:mb-8">
                   You May Also Like
                 </h2>
                 <PeopleAlsoBought />
@@ -58,16 +58,16 @@ const CartPage = () => {
           {/* RIGHT SIDE */}
           {cart.length > 0 && (
             <motion.div
-              className="w-full lg:w-1/3 mt-12 lg:mt-0 space-y-8"
+              className="w-full lg:w-1/3 mt-10 lg:mt-0 space-y-6 sm:space-y-8"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4 }}
             >
-              <div className="bg-white rounded-2xl shadow border border-gray-100 p-8">
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow border border-gray-100 p-6 sm:p-8">
                 <OrderSummary />
               </div>
 
-              <div className="bg-white rounded-2xl shadow border border-gray-100 p-8">
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow border border-gray-100 p-6 sm:p-8">
                 <GiftCouponCard />
               </div>
             </motion.div>
