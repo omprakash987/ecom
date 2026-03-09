@@ -7,8 +7,11 @@ import FeaturedProducts from "../components/FeaturedProducts";
 import Footer from "../components/Footer";
 
 const categories = [
-  { href: "/category/whey", name: "Whey Protein", imageUrl: "/whey.jpeg" },
-  { href: "/category/protein", name: "Mass Gainer", imageUrl: "/proton.jpeg" },
+  { href: "/category/whey", name: "Protein", imageUrl: "/whey.jpeg" },
+  {href:"/category/BCAA",name: "BCAA", imageUrl:"/BCAA.jpg"},
+  {href:"/category/EAA",name: "EAA", imageUrl:"/EAA.jpg"},
+  {href:"/category/FishOil",name: "Fish Oil", imageUrl:"/FishOil.avif"},
+  {href:"/category/Multivitamin",name: "Multivitamin", imageUrl:"/Multivitamin.webp"},
   { href: "/category/creatine", name: "Creatine", imageUrl: "/creatine.jpg" },
   { href: "/category/preworkout", name: "Pre Workout", imageUrl: "/preworkout.webp" },
 ];
@@ -39,7 +42,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-black">
+    <div className="min-h-screen bg-white text-black mt-10">
       <div className="max-w-7xl mx-auto px-6 py-16">
 
         {/* ================= HERO SLIDER ================= */}

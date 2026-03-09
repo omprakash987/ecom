@@ -11,7 +11,7 @@ const CartPage = () => {
   const { cart } = useCartStore();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 mt-10">
       <div className="mx-auto max-w-7xl">
 
         {/* Page Title */}
