@@ -1,174 +1,167 @@
-import User from "../models/user.model.js"
-import jwt from 'jsonwebtoken'
-import {redis} from '../lib/redis.js'
+import User from "../models/user.model.js";
+import jwt from "jsonwebtoken";
+
+// 🔐 Generate tokens
+const generateToken = (userId) => {
+  const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "15m",
+  });
+
+  const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d",
+  });
+
+  return { accessToken, refreshToken };
+};
+
+// 🍪 Set cookies
+const setCookies = (res, accessToken, refreshToken) => {
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 15 * 60 * 1000,
+  });
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // ✅ FIXED (7 days)
+  });
+};
 
 
-const generateToken = (userId)=>{
-    const accessToken = jwt.sign({userId},process.env.ACCESS_TOKEN_SECRET,{
-        expiresIn:"15m"
-    })
-    const refreshToken = jwt.sign({userId},process.env.REFRESH_TOKEN_SECRET,{
-        expiresIn:"7d"
+export const signup = async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      return res.status(400).json({
+        message: "User already exists",
+      });
+    }
+
+    const user = await User.create({ name, email, password });
+
+    const { accessToken, refreshToken } = generateToken(user._id);
+    setCookies(res, accessToken, refreshToken);
+
+    res.status(201).json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+      message: "User created successfully",
     });
-
-return {accessToken,refreshToken}; 
-}
-
-const storeRefreshToken = async(userId,refreshToken)=>{
-    await redis.set(`refresh_token:${userId}`,refreshToken,"EX",7*24*60*60); 
-}
-
-const setCookies = async(res,accessToken,refreshToken)=>{
-    res.cookie("accessToken",accessToken,{
-        httpOnly:true,
-        secure:process.env.NODE_ENV==='production',
-        sameSite:"strict",
-        maxAge:15*60*1000,
-    })
-
-    res.cookie("refreshToken",refreshToken,{
-        httpOnly:true,
-        secure:process.env.NODE_ENV==='production',
-        sameSite:"strict",
-        maxAge:15*60*1000,
-    })
-}
-
-
-export const signup = async(req,res)=>{
-    try {
-        
-        const {email,password,name} = req.body; 
-    const userExist = await User.findOne({
-        email
-    })
-    if(userExist){
-        return res.status(400).json({
-            message:"user already exist"
-        })
-    }
-    const user = await User.create({name,email,password}); 
-    const {accessToken,refreshToken} =  generateToken(user._id)
-    await storeRefreshToken(user._id,refreshToken); 
-    setCookies(res,accessToken,refreshToken); 
-
-   
-     res.status(201).json({user:{
-        _id:user._id,
-        name:user.name,
-        email:user.email,
-        role:user.role,
-    },message:"user created successfully"})
-
-    } catch (error) {
-        console.log("error  : ", error) ; 
-         res.status(500).json({
-            message:"internal server error from signUP"
-        })
-    }
-
-}
-
-export const login  = async(req,res)=>{
-try {
-    const {email,password} = req.body; 
-const user = await User.findOne({email}); 
-
-if(user && (await user.comparePassword(password))){
-  const {accessToken,refreshToken}  =  generateToken(user._id); 
-
-  await storeRefreshToken(user._id,refreshToken);
-  setCookies(res,accessToken,refreshToken); 
-
-  res.status(201).json({
-    _id:user._id,
-    name:user.name,
-    email:user.email,
-    role:user.role,
-    message:"user login successfull"
-  }); 
-
-}else{
-    res.status(401).json({
-        message:"invalid email"
-    })
-}
-    
-} catch (error) {
-    console.log("error from login : " , error ); 
+  } catch (error) {
+    console.log("Signup error:", error);
     res.status(500).json({
-        message:"internal server error from login"
-    })
-}
-}
+      message: "Internal server error",
+    });
+  }
+};
 
-export const logout = async(req,res)=>{
-    try {
-        const refreshToken = req.cookies.refreshToken; 
-        if(refreshToken){
-            const decoded = jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET); 
-            await redis.del(`refresh_token:${decoded.userId}
-                `)
 
-        }
-        res.clearCookie("accessToken"); 
-        res.clearCookie('refreshToken'); 
-        res.clearCookie('jwt')
-        res.status(201).json({
-            message:"logout successfull"
-        })
-        
-    } catch (error) {
-        console.log("error from logout : ", error); 
-        res.status(500).json({
-            message:"server error from logout"
-        })
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (user && (await user.comparePassword(password))) {
+      const { accessToken, refreshToken } = generateToken(user._id);
+
+      setCookies(res, accessToken, refreshToken);
+
+      return res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        message: "Login successful",
+      });
+    } else {
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
     }
-}
+  } catch (error) {
+    console.log("Login error:", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
 
-export const refreshToken = async(req,res)=>{
-    try {
-        const refreshToken = req.cookies.refreshToken; 
 
-        if(!refreshToken){
-            return res.status(401).json({
-                message:"no refresh token"
-            })
-        }
-        const decoded = jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET); 
-        const storedToken = await redis.get(`refresh_token:${decoded.userId}`); 
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
 
-       if(storedToken !== refreshToken){
-        return res.status(401).json({
-            message:"invalid refresh token"
-        })
-       }
-       const accessToken = jwt.sign({userId:decoded.userId},process.env.ACCESS_TOKEN_SECRET,{expiresIn:"15m"}); 
+    res.status(200).json({
+      message: "Logout successful",
+    });
+  } catch (error) {
+    console.log("Logout error:", error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
 
-       res.cookie('accessToken', accessToken,{
-        httpOnly:true,
-        secure:process.env.NODE_ENV==="production",sameSite:"strict",
-        maxAge:15*60*1000,
+
+export const refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+      return res.status(401).json({
+        message: "No refresh token",
+      });
+    }
+
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+
+    const accessToken = jwt.sign(
+      { userId: decoded.userId },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
     });
 
     res.json({
-        message:"token refresh successfully"
-    })
-        
-    } catch (error) {
-        console.log("error from refresh token : ", error); 
-        res.status(500).json({
-            message:"internal server error : "
-        })
-    }
-}
+      message: "Token refreshed successfully",
+    });
+  } catch (error) {
+    console.log("Refresh token error:", error);
+    res.status(401).json({
+      message: "Invalid refresh token",
+    });
+  }
+};
 
-export const getProfile = async(req,res)=>{
-    try {
-        res.json(req.user); 
 
-        
-    } catch (error) {
-        console.log("error : from getprofile ", error )
-    }
-}; 
+export const getProfile = async (req, res) => {
+  try {
+    res.json(req.user);
+  } catch (error) {
+    console.log("Get profile error:", error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};

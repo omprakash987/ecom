@@ -15,30 +15,24 @@ try {
 }
 }
 
-export const getFeaturedProducts = async(req,res)=>{
-    try {
-    let featuredProducts = await redis.get("featured_products"); 
+export const getFeaturedProducts = async (req, res) => {
+  try {
+    const featuredProducts = await Product.find({ isFeatured: true }).lean();
 
-    if(featuredProducts){
-        return res.json(JSON.parse(featuredProducts)); 
-    }
-    featuredProducts = await Product.find({isFeatured:true}).lean(); //lean convert mongodb document to plain js : 
-    if(!featuredProducts){
-        return res.status(400).json({
-            message:"no featured products"
-        })
+    if (!featuredProducts || featuredProducts.length === 0) {
+      return res.status(400).json({
+        message: "no featured products",
+      });
     }
 
-    await redis.set("featured_products",JSON.stringify(featuredProducts));
     res.json(featuredProducts);
-
-    } catch (error) {
-        console.log("error : ", error); 
-        return res.status(500).json({
-            message:"internal server error from featured products"
-        })
-    }
-}
+  } catch (error) {
+    console.log("error : ", error);
+    return res.status(500).json({
+      message: "internal server error from featured products",
+    });
+  }
+};
 
 export const createProduct = async(req,res)=>{
     try {
@@ -149,7 +143,7 @@ export const toggleFeaturedProduct = async(req,res)=>{
         if(product){
             product.isFeatured = !product.isFeatured; 
             const updatedProduct = await product.save(); 
-            await updateFeaturedProductCache(); 
+            // await updateFeaturedProductCache(); 
             res.json(updatedProduct); 
         }else{
             res.status(404).json({
@@ -183,14 +177,137 @@ export const getSearch = async(req,res)=>{
   }
 }
 
-async function updateFeaturedProductCache(){
-    try {
-        const featuredProducts = await Product.find({isFeatured:true}).lean(); 
-    await redis.set("featured_products",JSON.stringify(featuredProducts)); 
-        
-    } catch (error) {
-        console.log("error updating featuredproduct :", error); 
+export const getProductById = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    console.log("productid : " , product)
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
     }
-}
+
+    res.json(product);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const getTrendingCreatine = async (req, res) => {
+  try {
+    const products = await Product.find({ category: "creatine" })
+      .sort({ createdAt: -1 })  
+      .limit(6);
+
+    res.json(products);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({
+      message: "error fetching trending creatine",
+    });
+  }
+};
+export const getTrendingBCAA = async (req, res) => {
+  try {
+    const products = await Product.find({ category: "BCAA" })
+      .sort({ createdAt: -1 }) // latest = trending (for now)
+      .limit(6);
+
+    res.json(products);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({
+      message: "error fetching trending creatine",
+    });
+  }
+};
+
+export const getTrendingEAA = async (req, res) => {
+  try {
+    const products = await Product.find({ category: "EAA" })
+      .sort({ createdAt: -1 })  
+      .limit(6);
+
+    res.json(products);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({
+      message: "error fetching trending creatine",
+    });
+  }
+};
+
+export const getTrendingFishOil = async (req, res) => {
+  try {
+    const products = await Product.find({ category: "FishOil" })
+      .sort({ createdAt: -1 }) // latest = trending (for now)
+      .limit(6);
+
+    res.json(products);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({
+      message: "error fetching trending creatine",
+    });
+  }
+};
+
+export const getTrendingpreworkout = async (req, res) => {
+  try {
+    const products = await Product.find({ category: "preworkout" })
+      .sort({ createdAt: -1 }) // latest = trending (for now)
+      .limit(6);
+
+    res.json(products);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({
+      message: "error fetching trending creatine",
+    });
+  }
+};
+export const getTrendingMultivitamin = async (req, res) => {
+  try {
+    const products = await Product.find({ category: "Multivitamin" })
+      .sort({ createdAt: -1 }) // latest = trending (for now)
+      .limit(6);
+
+    res.json(products);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({
+      message: "error fetching trending creatine",
+    });
+  }
+};
+export const getTrendingWhey = async (req, res) => {
+  try {
+    const products = await Product.find({ category: "Whey" })
+      .sort({ createdAt: -1 }) // latest = trending (for now)
+      .limit(6);
+
+    res.json(products);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({
+      message: "error fetching trending creatine",
+    });
+  }
+};
+
+
+// async function updateFeaturedProductCache(){
+//     try {
+//         const featuredProducts = await Product.find({isFeatured:true}).lean(); 
+//     await redis.set("featured_products",JSON.stringify(featuredProducts)); 
+        
+//     } catch (error) {
+//         console.log("error updating featuredproduct :", error); 
+//     }
+// }
 
 

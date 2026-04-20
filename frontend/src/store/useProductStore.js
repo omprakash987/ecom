@@ -6,6 +6,11 @@ import axios from '../lib/axios';
 export const useProductStore = create((set)=>({
     products:[],
     loading:false,
+	trendingCreatine: [],
+	trendingFishOil:[],
+	treadingEAA:[],
+	treandingBCAA:[],
+
 
 
     setProducts:(products)=>set({products}),
@@ -85,6 +90,27 @@ export const useProductStore = create((set)=>({
 			console.log("Error fetching featured products:", error);
 		}
 	},
+	fetchTrendingCreatine: async () => {
+  try {
+    const res = await axios.get("products/product/tranding/creatine");
+    set({ trendingCreatine: res.data });
+  } catch (error) {
+    console.log(error);
+  }
+    },
+
+	fetchTrendingFishOil:async()=>{
+		try {
+			const res = await axios.get("products/product/tranding/FishOil"); 
+			set({trendingFishOil:res.data}); 
+
+			
+		} catch (error) {
+			console.log("error: ", error); 
+		}
+	}
+
+
 
 
 }))

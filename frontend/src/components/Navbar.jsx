@@ -33,7 +33,7 @@ const handleSearch = (e) => {
             />
 
             <Link to="/" className="text-2xl font-extrabold text-black tracking-wide">
-              MUSCLEUP24x7
+             <img className=" rounded-xl" width={50} height = {50} src="logo.jpeg" alt="muscleup" />
             </Link>
           </div>
 

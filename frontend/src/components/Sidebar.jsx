@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import { useUserStore } from "../store/useUserstore";
-
 import {
-  X,
   User,
   Package,
   ShieldCheck,
   Tag,
   HeartHandshake,
-  ChevronDown,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
-  const {user} = useUserStore(); 
+  const { user } = useUserStore();
   const [activeTab, setActiveTab] = useState("categories");
-  const [openCategory, setOpenCategory] = useState(null);
   const navigate = useNavigate();
 
   const handleNavigate = (path) => {
@@ -24,13 +20,25 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   };
 
   const categories = [
-    "Performance Nutrition",
-    "Vitamins And Supplements",
-    "Health Food And Drinks",
-    "Workout Gear",
-    "Top 10",
-    "Bestseller",
-    "Magazine",
+    { name: "Protein", slug: "whey" },
+    { name: "Creatine", slug: "creatine" },
+    { name: "Fish Oil", slug: "FishOil" },
+    { name: "Pre Workout", slug: "preworkout" },
+    { name: "EAA", slug: "EAA" },
+    { name: "BCAA", slug: "BCAA" },
+    { name: "Multivitamin", slug: "Multivitamin" },
+  ];
+
+  const brands = [
+    "Optimum Nutrition",
+    "MuscleBlaze",
+    "MyProtein",
+    "GNC",
+    "BigMuscles",
+    "HealthKart",
+    "Dymatize",
+    "BSN",
+    "Ultimate Nutrition",
   ];
 
   return (
@@ -50,20 +58,20 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         }`}
       >
         {/* Top */}
-      {!user && (
-  <h2
-    onClick={() => handleNavigate("/login")}
-    className="text-lg font-bold text-black cursor-pointer"
-  >
-    Login / Register
-  </h2>
-)}
-
-{user && (
-  <h2 className="text-lg font-bold text-black">
-    Hello, {user.name}
-  </h2>
-)}
+        <div className="p-4 border-b">
+          {!user ? (
+            <h2
+              onClick={() => handleNavigate("/login")}
+              className="text-lg font-bold text-black cursor-pointer"
+            >
+              Login / Register
+            </h2>
+          ) : (
+            <h2 className="text-lg font-bold text-black">
+              Hello, {user.name}
+            </h2>
+          )}
+        </div>
 
         {/* Grid Menu */}
         <div className="grid grid-cols-3 text-center border-b">
@@ -123,37 +131,35 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </button>
         </div>
 
-        {/* Category List */}
-        <div className="p-4 space-y-4 overflow-y-auto h-[60vh]">
-          {activeTab === "categories" &&
-            categories.map((cat, index) => (
-              <div key={index}>
+        {/* Content */}
+        <div className="p-4 space-y-4 overflow-y-auto h-[65vh]">
+
+          {/* Categories */}
+          {activeTab === "categories" && (
+            <div className="space-y-3">
+              {categories.map((cat, index) => (
                 <div
-                  onClick={() =>
-                    setOpenCategory(openCategory === index ? null : index)
-                  }
-                  className="flex justify-between items-center cursor-pointer text-black font-medium"
+                  key={index}
+                  onClick={() => handleNavigate(`/category/${cat.slug}`)}
+                  className="cursor-pointer text-black font-medium hover:text-orange-500 hover:translate-x-1 transition"
                 >
-                  {cat}
-                  <ChevronDown size={16} />
+                  {cat.name}
                 </div>
+              ))}
+            </div>
+          )}
 
-                {openCategory === index && (
-                  <div className="ml-4 mt-2 text-sm text-black space-y-1">
-                    <p>Subcategory 1</p>
-                    <p>Subcategory 2</p>
-                    <p>Subcategory 3</p>
-                  </div>
-                )}
-              </div>
-            ))}
-
+          {/* Brands (NO CLICK) */}
           {activeTab === "brands" && (
-            <div className="space-y-2 text-black font-medium">
-              <p>Optimum Nutrition</p>
-              <p>MuscleBlaze</p>
-              <p>MyProtein</p>
-              <p>GNC</p>
+            <div className="space-y-3">
+              {brands.map((brand, index) => (
+                <div
+                  key={index}
+                  className="text-black font-medium opacity-80 cursor-default"
+                >
+                  {brand}
+                </div>
+              ))}
             </div>
           )}
         </div>
