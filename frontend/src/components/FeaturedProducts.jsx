@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCartStore } from "../store/useCartStore";
+import { Link } from "react-router-dom";
 
 const FeaturedProducts = ({ featuredProducts }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(4);
-
   const { addToCart } = useCartStore();
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) setItemsPerPage(1);
-      else if (window.innerWidth < 1024) setItemsPerPage(2);
-      else if (window.innerWidth < 1280) setItemsPerPage(3);
+      if (window.innerWidth < 480) setItemsPerPage(2);
+      else if (window.innerWidth < 768) setItemsPerPage(2);
+      else if (window.innerWidth < 1024) setItemsPerPage(3);
       else setItemsPerPage(4);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -23,97 +22,123 @@ const FeaturedProducts = ({ featuredProducts }) => {
 
   const nextSlide = () => {
     if (currentIndex < featuredProducts.length - itemsPerPage) {
-      setCurrentIndex((prevIndex) => prevIndex + itemsPerPage);
+      setCurrentIndex((prev) => prev + itemsPerPage);
     }
   };
-
   const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prevIndex) => prevIndex - itemsPerPage);
-    }
+    if (currentIndex > 0) setCurrentIndex((prev) => prev - itemsPerPage);
   };
 
   const isStartDisabled = currentIndex === 0;
-  const isEndDisabled =
-    currentIndex >= featuredProducts.length - itemsPerPage;
+  const isEndDisabled = currentIndex >= featuredProducts.length - itemsPerPage;
 
   return (
-    <div className="py-6">
-      <div className="relative">
+    <div className="relative py-2">
+      <div className="overflow-hidden">
+        <div
+          className="flex transition-transform duration-500 ease-in-out"
+          style={{ transform: `translateX(-${(currentIndex * 100) / itemsPerPage}%)` }}
+        >
+          {featuredProducts?.map((product) => (
+            <div
+              key={product._id}
+              className="flex-shrink-0 px-1.5"
+              style={{ width: `${100 / itemsPerPage}%` }}
+            >
+              <NutrabayProductCard product={product} addToCart={addToCart} />
+            </div>
+          ))}
+        </div>
+      </div>
 
-        <div className="overflow-hidden">
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${
-                (currentIndex * 100) / itemsPerPage
-              }%)`,
-            }}
-          >
-            {featuredProducts?.map((product) => (
-              <div
-                key={product._id}
-                className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 flex-shrink-0 px-3"
-              >
-                <div className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col">
+      <button
+        onClick={prevSlide}
+        disabled={isStartDisabled}
+        className={`absolute top-1/2 -left-4 -translate-y-1/2 w-8 h-8 rounded-full shadow-md flex items-center justify-center border transition ${
+          isStartDisabled
+            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+            : "bg-white border-gray-200 hover:border-[#0a1628] hover:shadow-lg"
+        }`}
+      >
+        <ChevronLeft size={16} className={isStartDisabled ? "text-gray-300" : "text-[#0a1628]"} />
+      </button>
+      <button
+        onClick={nextSlide}
+        disabled={isEndDisabled}
+        className={`absolute top-1/2 -right-4 -translate-y-1/2 w-8 h-8 rounded-full shadow-md flex items-center justify-center border transition ${
+          isEndDisabled
+            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+            : "bg-white border-gray-200 hover:border-[#0a1628] hover:shadow-lg"
+        }`}
+      >
+        <ChevronRight size={16} className={isEndDisabled ? "text-gray-300" : "text-[#0a1628]"} />
+      </button>
+    </div>
+  );
+};
 
-                  {/* Image */}
-                  <div className="overflow-hidden rounded-t-xl">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-48 object-cover hover:scale-105 transition duration-300"
-                    />
-                  </div>
+export const NutrabayProductCard = ({ product, addToCart }) => {
+  const discountPct = product.mrp
+    ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
+    : null;
 
-                  {/* Content */}
-                  <div className="p-4 flex flex-col flex-grow">
-                    <h3 className="text-lg font-semibold text-black mb-2">
-                      {product.name}
-                    </h3>
+  return (
+    <div className="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all duration-300 flex flex-col h-full group">
+      {/* Image + badge */}
+      <div className="relative overflow-hidden bg-gray-50">
+        <Link to={`/product/${product._id}`}>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-36 md:h-44 object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+          />
+        </Link>
+        {discountPct > 0 && (
+          <span className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+            {discountPct}% OFF
+          </span>
+        )}
+        {product.isFeatured && (
+          <span className="absolute top-2 right-2 bg-[#f5a623] text-black text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">
+            Featured
+          </span>
+        )}
+      </div>
 
-                    <p className="text-gray-700 font-medium mb-4">
-                      ₹{product.price.toFixed(2)}
-                    </p>
+      {/* Content */}
+      <div className="p-2.5 md:p-3 flex flex-col flex-grow">
+        <Link to={`/product/${product._id}`}>
+          <h3 className="text-xs md:text-sm font-semibold text-gray-800 leading-snug line-clamp-2 mb-1 hover:text-[#0a1628]">
+            {product.name}
+          </h3>
+        </Link>
 
-                    <button
-                      onClick={() => addToCart(product)}
-                      className="mt-auto w-full bg-black text-white font-medium py-2 rounded-lg hover:bg-gray-800 transition duration-300 flex items-center justify-center"
-                    >
-                      <ShoppingCart className="w-5 h-5 mr-2" />
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Stars placeholder */}
+        <div className="flex items-center gap-1 mb-2">
+          {[1,2,3,4,5].map((s) => (
+            <svg key={s} className="w-2.5 h-2.5 text-yellow-400 fill-yellow-400" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+          <span className="text-[10px] text-gray-400 ml-0.5">(4.5)</span>
         </div>
 
-        {/* Left Arrow */}
-        <button
-          onClick={prevSlide}
-          disabled={isStartDisabled}
-          className={`absolute top-1/2 -left-5 transform -translate-y-1/2 p-3 rounded-full shadow-md transition ${
-            isStartDisabled
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-white hover:bg-gray-200"
-          }`}
-        >
-          <ChevronLeft className="w-6 h-6 text-black" />
-        </button>
+        {/* Price */}
+        <div className="flex items-baseline gap-1.5 mt-auto mb-2.5">
+          <span className="text-sm md:text-base font-black text-[#0a1628]">
+            ₹{product.price.toFixed(0)}
+          </span>
+          {product.mrp && (
+            <span className="text-xs text-gray-400 line-through">₹{product.mrp}</span>
+          )}
+        </div>
 
-        {/* Right Arrow */}
         <button
-          onClick={nextSlide}
-          disabled={isEndDisabled}
-          className={`absolute top-1/2 -right-5 transform -translate-y-1/2 p-3 rounded-full shadow-md transition ${
-            isEndDisabled
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-white hover:bg-gray-200"
-          }`}
+          onClick={() => addToCart(product)}
+          className="w-full bg-[#0a1628] text-white text-xs font-bold py-2 rounded-lg hover:bg-[#1e3a5f] transition-colors flex items-center justify-center gap-1.5"
         >
-          <ChevronRight className="w-6 h-6 text-black" />
+          <ShoppingCart size={13} />
+          Add to Cart
         </button>
       </div>
     </div>

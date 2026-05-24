@@ -1,78 +1,88 @@
 import React from "react";
-import { Minus, Plus, Trash } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import { useCartStore } from "../store/useCartStore";
+import { Link } from "react-router-dom";
 
 const CartItem = ({ item }) => {
   const { removeFromCart, updateQuantity } = useCartStore();
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-md transition duration-300">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <div
+      className="bg-white border border-gray-100 rounded-xl p-3 md:p-4 hover:shadow-md transition-shadow duration-200"
+      style={{ fontFamily: "'DM Sans', sans-serif" }}
+    >
+      <div className="flex gap-3 md:gap-4">
 
         {/* Product Image */}
-        <div className="shrink-0">
-          <img
-            src={item.image}
-            alt={item.name}
-            className="h-24 w-24 md:h-28 md:w-28 object-cover rounded-xl border border-gray-200"
-          />
-        </div>
+        <Link to={`/product/${item._id}`} className="flex-shrink-0">
+          <div className="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 flex items-center justify-center">
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-full h-full object-contain p-1"
+            />
+          </div>
+        </Link>
 
-        {/* Product Info */}
-        <div className="flex-1 space-y-2">
-          <h3 className="text-lg md:text-xl font-semibold text-black">
-            {item.name}
-          </h3>
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <Link to={`/product/${item._id}`}>
+            <h3 className="text-sm md:text-base font-semibold text-gray-800 leading-snug line-clamp-2 hover:text-[#0a1628]">
+              {item.name}
+            </h3>
+          </Link>
 
-          <p className="text-sm text-gray-600 line-clamp-2">
-            {item.description}
-          </p>
+          {item.description && (
+            <p className="text-xs text-gray-400 mt-0.5 line-clamp-1 hidden md:block">
+              {item.description}
+            </p>
+          )}
 
-          <p className="text-xl font-bold text-black">
-            ₹{item.price.toFixed(2)}
-          </p>
-        </div>
-
-        {/* Quantity + Remove */}
-        <div className="flex flex-col items-end gap-4">
-
-          {/* Quantity Controls */}
-          <div className="flex items-center gap-3 border border-gray-300 px-3 py-2 rounded-lg">
-
-            <button
-              disabled={item.quantity <= 1}
-              onClick={() =>
-                item.quantity > 1 &&
-                updateQuantity(item._id, item.quantity - 1)
-              }
-              className="p-1 rounded-md hover:bg-gray-100 disabled:opacity-40 transition"
-            >
-              <Minus size={16} className="text-black" />
-            </button>
-
-            <span className="text-black font-semibold w-6 text-center">
-              {item.quantity}
+          {/* Price row */}
+          <div className="flex items-baseline gap-2 mt-1.5">
+            <span className="text-base md:text-lg font-black text-[#0a1628]">
+              ₹{(item.price * item.quantity).toFixed(0)}
             </span>
-
-            <button
-              onClick={() =>
-                updateQuantity(item._id, item.quantity + 1)
-              }
-              className="p-1 rounded-md hover:bg-gray-100 transition"
-            >
-              <Plus size={16} className="text-black" />
-            </button>
+            {item.quantity > 1 && (
+              <span className="text-xs text-gray-400">
+                ₹{item.price.toFixed(0)} each
+              </span>
+            )}
           </div>
 
-          {/* Remove Button */}
-          <button
-            onClick={() => removeFromCart(item._id)}
-            className="flex items-center gap-2 text-sm text-red-500 hover:text-red-600 transition"
-          >
-            <Trash size={16} />
-            Remove
-          </button>
+          {/* Controls row */}
+          <div className="flex items-center justify-between mt-2.5">
+            {/* Quantity stepper */}
+            <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                disabled={item.quantity <= 1}
+                onClick={() =>
+                  item.quantity > 1 && updateQuantity(item._id, item.quantity - 1)
+                }
+                className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition"
+              >
+                <Minus size={13} />
+              </button>
+              <span className="w-8 h-8 flex items-center justify-center text-sm font-bold text-[#0a1628] border-x border-gray-200">
+                {item.quantity}
+              </span>
+              <button
+                onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition"
+              >
+                <Plus size={13} />
+              </button>
+            </div>
 
+            {/* Remove */}
+            <button
+              onClick={() => removeFromCart(item._id)}
+              className="flex items-center gap-1 text-xs text-red-400 hover:text-red-600 transition font-medium"
+            >
+              <Trash2 size={13} />
+              <span>Remove</span>
+            </button>
+          </div>
         </div>
 
       </div>
