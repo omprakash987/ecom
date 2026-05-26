@@ -22,7 +22,8 @@ const __dirname = path.resolve();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://www.muscleup24x7.com"
+    "https://www.muscleup24x7.com",
+    "https://muscleup24x7.com"
   ],
   credentials: true
 }));
