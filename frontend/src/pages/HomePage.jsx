@@ -7,6 +7,7 @@ import TrandingInCreatine from "../components/TrandingInCreatine";
 import TrandingInFishOil from "../components/TrandingInFishOil";
 import { ChevronLeft, ChevronRight, ShieldCheck, Tag, Star, Zap, Gift } from "lucide-react";
 import ReviewsMarquee from "../components/Review";
+import PromoSection from "../components/Promotion";
 
 const categories = [
   { href: "/category/whey", name: "Protein", imageUrl: "/whey.jpeg" },
@@ -223,6 +224,7 @@ const HomePage = () => {
       )}
 
       <ReviewsMarquee/>
+      <PromoSection/>
 
       {/* TRUST STRIP */}
       <div className="bg-[#f7f8fa] border-t border-gray-100 py-4 mt-6">
