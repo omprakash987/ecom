@@ -15,12 +15,12 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <img src="logo.jpeg" alt="muscleup" className="h-10 w-10 rounded-lg object-cover border-2 border-[#f5a623]/50" />
+              <img src="logo.jpeg" alt="muscleup24x7" className="h-10 w-10 rounded-lg object-cover border-2 border-[#f5a623]/50" />
               <span
                 className="text-xl font-black text-white uppercase tracking-widest"
                 style={{ fontFamily: "'Bebas Neue', cursive" }}
               >
-                Muscle-Up
+                Muscleup24x7
               </span>
             </div>
             <p className="text-white/50 text-xs leading-relaxed mb-5">
