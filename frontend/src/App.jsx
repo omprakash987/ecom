@@ -19,6 +19,7 @@ import Offer from "./components/Offer";
 import Support from "./components/Support";
 import SearchPage from "./pages/SearchPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import FranchisePage from "./pages/FranchisePage";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
@@ -87,7 +88,9 @@ function App() {
 
         <Route path="/search" element={<SearchPage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/franchise" element={<FranchisePage />} />
       </Routes>
+      
 
       <Toaster />
     </div>

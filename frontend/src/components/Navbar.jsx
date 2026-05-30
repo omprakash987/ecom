@@ -53,7 +53,7 @@ const Navbar = () => {
               src="logo.png"
               alt="MUSCLEUP24X7"
               className="h-11 w-auto object-contain bg-[#0a1628]"
-              style={{ maxWidth: "200px" }}
+              style={{ maxWidth: "900px" }}
             />
           </Link>
 
@@ -205,7 +205,7 @@ const Navbar = () => {
           Mobile:  h-16 (top bar) + ~48px (search row) = ~112px
           Desktop: h-14 = 56px
       */}
-      <div className="h-[112px] md:h-14" />
+      
 
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
