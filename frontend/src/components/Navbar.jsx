@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     <>
       <header
-        className="w-full bg-[#0a1628] fixed top-0 left-0 z-50"
+        className="w-full bg-[#0a1628] fixed top-0 left-0 z-50 mb-8"
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
 
@@ -132,7 +132,7 @@ const Navbar = () => {
             <img
               src="logo.jpeg"
               alt="MUSCLEUP24X7"
-              className="h-9 w-auto object-contain rounded-lg"
+              className="h-12 w-auto object-contain rounded-lg "
               style={{ maxWidth: "140px" }}
             />
           </Link>

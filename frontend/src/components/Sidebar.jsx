@@ -5,6 +5,7 @@ import {
   Package,
   ShieldCheck,
   Tag,
+  BriefcaseBusiness,
   HeartHandshake,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -105,6 +106,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             label="Products"
             onClick={() => handleNavigate("/")}
           />
+
+          <MenuItem
+  icon={<BriefcaseBusiness />}
+  label="Franchise"
+  onClick={() => handleNavigate("/franchise")}
+/>
         </div>
 
         {/* Tabs */}

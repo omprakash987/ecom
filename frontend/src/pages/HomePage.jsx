@@ -59,7 +59,8 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-gray-900" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div  className="min-h-screen bg-white text-gray-900 pt-[112px] md:pt-14"
+  style={{ fontFamily: "'DM Sans', sans-serif" }}>
 
       {/* TRUST BADGES TICKER */}
       <div className="bg-[#0a1628] text-white text-xs py-1.5 overflow-hidden">
