@@ -19,7 +19,7 @@ import Offer from "./components/Offer";
 import Support from "./components/Support";
 import SearchPage from "./pages/SearchPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
-import FranchisePage from "./pages/FranchisePage";
+import FranchisePage from './pages/FranchisePage'
 
 
 function App() {
