@@ -30,7 +30,7 @@ const SendFranchiseEmail = () => {
 
     try {
       const response = await fetch(
-        `https://muscleup24x7.com/api/email/sendEmail`,
+        `https://www.muscleup24x7.com/api/email/sendEmail`,
         {
           method: "POST",
           headers: {
