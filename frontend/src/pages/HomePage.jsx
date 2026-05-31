@@ -20,11 +20,10 @@ const categories = [
 ];
 
 const trustBadges = [
-  { icon: "✅", text: "100% Authentic Products" },
-  { icon: "🏷️", text: "5% Off for New Users" },
-  { icon: "⭐", text: "Top Rated Supplements" },
-  { icon: "⚡", text: "Fast Delivery Pan India" },
-  { icon: "🎁", text: "Free Gifts on Orders ₹999+" },
+  {
+    text: `Start your own business with our franchise`,
+    href: "/franchise",
+  },
 ];
 
 const specialtyCategories = [
@@ -63,19 +62,43 @@ const HomePage = () => {
   style={{ fontFamily: "'DM Sans', sans-serif" }}>
 
       {/* TRUST BADGES TICKER */}
-      <div className="bg-[#0a1628] text-white text-xs py-1.5 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-8">
+      <div className="bg-[#0a1628] text-yellow-500 text-4xl py-1.5 overflow-hidden">
+        <div className="max-w-40xl mx-auto px-4 flex items-center justify-center gap-8">
           {trustBadges.map((badge, i) => (
-            <span
-              key={i}
-              className={`flex items-center gap-1.5 whitespace-nowrap transition-opacity duration-500 ${
-                i === badgeCurrent ? "opacity-100" : "opacity-0 hidden md:flex md:opacity-40"
-              }`}
-            >
-              <span>{badge.icon}</span>
-              <span className="font-semibold tracking-wide">{badge.text}</span>
-            </span>
-          ))}
+  <span
+    key={i}
+    className={`flex items-center justify-center transition-opacity duration-500 ${
+      i === badgeCurrent
+        ? "opacity-100"
+        : "opacity-0 hidden md:flex md:opacity-40"
+    }`}
+  >
+    <Link
+      to={badge.href}
+      className="
+  text-2xl md:text-base
+  font-semibold
+  tracking-wide
+  underline
+  underline-offset-4
+  hover:text-yellow-400
+  transition-colors
+  text-center
+  leading-tight
+"
+    >
+     <span className="md:hidden">
+    Start your own business
+     <br />
+    with our franchise
+  </span>
+
+  <span className="hidden md:inline">
+    Start your own business with our franchise
+  </span>
+    </Link>
+  </span>
+))}
         </div>
       </div>
 

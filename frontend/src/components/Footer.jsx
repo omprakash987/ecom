@@ -45,7 +45,7 @@ const Footer = () => {
               
             </div>
            <div className=" mt-10">
-            <span className=" mt-20">Founder-sultan </span>
+            <span className=" mt-20">Founder-Sultan </span>
            <br />
            <span> Founded in 2025</span>
            </div>

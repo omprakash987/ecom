@@ -43,50 +43,50 @@ const plans = [
   {
     name: "Starter",
     tag: "Perfect for beginners",
-    investment: "₹1.5L – ₹2.5L",
-    roi: "6–9 months",
-    margin: "18–22%",
-    monthlyRevenue: "₹80K – ₹1.2L",
+    investment: "₹5L – ₹6L",
+    roi: "6–7 months",
+    margin: "20–25%",
+    monthlyRevenue: "₹4.5L+",
     color: "#10b981",
     features: [
-      "Starter inventory worth ₹80,000",
+      "Starter inventory worth ₹3,00,000",
       "Branded shop signage & display",
       "Basic POS billing system",
       "3-day product training",
       "WhatsApp support (6 days/week)",
       "Social media starter kit",
-      "1 city territory protection",
+      "5km radius of your area pin code",
     ],
     popular: false,
   },
   {
     name: "Growth",
     tag: "Most popular choice",
-    investment: "₹3L – ₹5L",
-    roi: "5–7 months",
-    margin: "22–28%",
-    monthlyRevenue: "₹1.5L – ₹2.5L",
+    investment: "₹8L – ₹10L",
+    roi: "8–10 months",
+    margin: "25–30%",
+    monthlyRevenue: "₹7.5L+",
     color: "#f5a623",
     features: [
-      "Inventory worth ₹2,00,000",
+      "Inventory worth ₹6,00,000",
       "Premium store setup & interiors",
       "Full POS + online order system",
       "5-day advanced training",
       "Dedicated relationship manager",
       "Full digital marketing support",
-      "1 district territory protection",
       "Quarterly business review",
       "Access to new launches first",
+      "10Km radius of your area pin code",
     ],
     popular: true,
   },
   {
     name: "Elite",
     tag: "Maximum returns",
-    investment: "₹7L – ₹12L",
-    roi: "4–6 months",
-    margin: "28–35%",
-    monthlyRevenue: "₹3L – ₹6L",
+    investment: "₹12L – ₹15L",
+    roi: "9–12 months",
+    margin: "30–35%",
+    monthlyRevenue: "₹11.5L+",
     color: "#6366f1",
     features: [
       "Inventory worth ₹5,00,000",
@@ -95,10 +95,10 @@ const plans = [
       "10-day elite training program",
       "Priority support (7 days/week)",
       "Co-branded marketing campaigns",
-      "Multi-zone territory rights",
       "Monthly profit analytics report",
       "Influencer tie-up support",
       "Annual franchise summit invite",
+      "15km radius of your area pin code"
     ],
     popular: false,
   },
@@ -114,10 +114,10 @@ const steps = [
 ];
 
 const profits = [
-  { label: "Avg. Monthly Revenue", value: "₹1.8L", sub: "Growth plan average" },
-  { label: "Gross Margin", value: "25%", sub: "After all costs" },
-  { label: "Break-even Period", value: "6 Months", sub: "Typical timeline" },
-  { label: "Net Monthly Profit", value: "₹40K+", sub: "Post expenses" },
+  { label: "Avg. Monthly Revenue", value: "₹4.5L", sub: "Growth plan average" },
+  { label: "Gross Margin", value: "30%", sub: "After all costs" },
+  { label: "Break-even Period", value: "6-8 Months", sub: "Typical timeline" },
+  { label: "Net Monthly Profit", value: "₹1L+", sub: "Post expenses" },
 ];
 
 const faqs = [
@@ -288,9 +288,10 @@ const FranchisePage = () => {
             <div className="flex flex-wrap gap-8 mt-12 pt-10 border-t border-white/10">
               {[
                 { n: "50K+", l: "Customers" },
-                { n: "₹40K+", l: "Avg Monthly Profit" },
+                { n: "₹150K+", l: "Avg Monthly Profit" },
                 { n: "6 Mo", l: "Break-even" },
                 { n: "35%", l: "Max Margins" },
+                { n: "10+", l: "Outlets" },
               ].map((s) => (
                 <div key={s.l}>
                   <p className="text-[#f5a623] font-black text-2xl md:text-3xl"
@@ -353,28 +354,7 @@ const FranchisePage = () => {
           </div>
 
           {/* Profit breakdown bar */}
-          <div className="mt-12 bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
-            <h3 className="text-white font-black text-lg mb-6">Monthly Revenue Breakdown (Growth Plan Example)</h3>
-            <div className="space-y-4">
-              {[
-                { label: "Gross Revenue", pct: 100, val: "₹1,80,000", color: "#f5a623" },
-                { label: "Product Cost (COGS ~65%)", pct: 65, val: "– ₹1,17,000", color: "#ef4444" },
-                { label: "Operating Expenses (~10%)", pct: 10, val: "– ₹18,000", color: "#f97316" },
-                { label: "Net Profit (~25%)", pct: 25, val: "₹45,000", color: "#10b981" },
-              ].map((row) => (
-                <div key={row.label}>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-white/60 font-medium">{row.label}</span>
-                    <span className="font-black" style={{ color: row.color }}>{row.val}</span>
-                  </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full rounded-full transition-all duration-1000"
-                      style={{ width: `${row.pct}%`, background: row.color }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        
         </div>
       </section>
 

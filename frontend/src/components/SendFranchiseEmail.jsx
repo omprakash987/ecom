@@ -112,9 +112,9 @@ const SendFranchiseEmail = () => {
         className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white [&>option]:text-black [&>option]:bg-white"
       >
         <option value="">Select Plan</option>
-        <option value="Starter">Starter – ₹1.5L to ₹2.5L</option>
-        <option value="Growth">Growth – ₹3L to ₹5L</option>
-        <option value="Elite">Elite – ₹7L to ₹12L</option>
+        <option value="Starter">Starter – ₹5L to ₹6L</option>
+        <option value="Growth">Growth – ₹8L to ₹10L</option>
+        <option value="Elite">Elite – ₹12L to ₹15L</option>
       </select>
 
       <textarea
