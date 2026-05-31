@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter, Youtube, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -15,7 +15,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <img src="logo.png" alt="muscleup24x7" className="h-10 w-10 rounded-lg object-cover border-2 border-[#f5a623]/50" />
+              <img src="logo.jpeg" alt="muscleup24x7" className="h-10 w-10 rounded-lg object-cover border-2 border-[#f5a623]/50" />
               <span
                 className="text-xl font-black text-white uppercase tracking-widest"
                 style={{ fontFamily: "'Bebas Neue', cursive" }}
@@ -29,10 +29,10 @@ const Footer = () => {
             {/* Social icons */}
             <div className="flex gap-3">
               {[
-                { icon: <Facebook size={15} />, href: "#" },
+                // { icon: <Facebook size={15} />, href: "#" },
                 { icon: <Instagram size={15} />, href: "https://instagram.com/muscleup24x7?igsh=MWsxb3Vjankwdmo1Mg==" },
-                { icon: <Twitter size={15} />, href: "#" },
-                { icon: <Youtube size={15} />, href: "#" },
+                { icon: <Linkedin size={15} />, href: "https://www.linkedin.com/company/musclesup24x7/" },
+                // { icon: <Youtube size={15} />, href: "#" },
               ].map((s, i) => (
                 <Link
                   key={i}
@@ -42,11 +42,19 @@ const Footer = () => {
                   {s.icon}
                 </Link>
               ))}
+              
             </div>
+           <div className=" mt-10">
+            <span className=" mt-20">Founder-sultan </span>
+           <br />
+           <span> Founded in 2025</span>
+           </div>
           </div>
 
           {/* Quick Links */}
+          
           <div>
+             
             <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#f5a623] mb-4">
               Quick Links
             </h4>

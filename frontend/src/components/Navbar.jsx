@@ -52,7 +52,7 @@ const Navbar = () => {
             <img  
               src="logo.png"
               alt="MUSCLEUP24X7"
-              className="h-11 w-auto object-contain bg-[#0a1628]"
+              className="h-16 object-contain bg-[#0a1628]"
               style={{ maxWidth: "900px" }}
             />
           </Link>
