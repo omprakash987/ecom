@@ -289,7 +289,7 @@ const FranchisePage = () => {
               {[
                 { n: "50K+", l: "Customers" },
                 { n: "₹150K+", l: "Avg Monthly Profit" },
-                { n: "6 Mo", l: "Break-even" },
+                { n: "6 Month", l: "Break-even" },
                 { n: "35%", l: "Max Margins" },
                 { n: "10+", l: "Outlets" },
               ].map((s) => (
