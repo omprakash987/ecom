@@ -1,104 +1,154 @@
-import React from 'react'
+import React from "react";
 import { motion } from "framer-motion";
 import { Trash, Star } from "lucide-react";
 import { useProductStore } from "../store/useProductStore";
 
 const ProductsList = () => {
-	const { deleteProduct, toggleFeaturedProduct, products } = useProductStore();
+  const { deleteProduct, toggleFeaturedProduct, products } =
+    useProductStore();
 
-	console.log("products", products);
+  return (
+    <motion.div
+      className="max-w-7xl mx-auto"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Desktop Table */}
+      <div className="hidden lg:block overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
+        <table className="min-w-full">
+          <thead className="bg-black text-white">
+            <tr>
+              <th className="px-6 py-4 text-left">Product</th>
+              <th className="px-6 py-4 text-left">Price</th>
+              <th className="px-6 py-4 text-left">Category</th>
+              <th className="px-6 py-4 text-center">Featured</th>
+              <th className="px-6 py-4 text-center">Actions</th>
+            </tr>
+          </thead>
 
-	return (
-		<motion.div
-			className='bg-gray-800 shadow-lg rounded-lg overflow-hidden max-w-4xl mx-auto'
-			initial={{ opacity: 0, y: 20 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.8 }}
-		>
-			<table className=' min-w-full divide-y divide-gray-700'>
-				<thead className='bg-gray-700'>
-					<tr>
-						<th
-							scope='col'
-							className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'
-						>
-							Product
-						</th>
-						<th
-							scope='col'
-							className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'
-						>
-							Price
-						</th>
-						<th
-							scope='col'
-							className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'
-						>
-							Category
-						</th>
+          <tbody>
+            {products?.map((product) => (
+              <tr
+                key={product._id}
+                className="border-t border-gray-100 hover:bg-gray-50 transition"
+              >
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-14 w-14 rounded-xl object-cover border"
+                    />
+                    <span className="font-semibold text-gray-800">
+                      {product.name}
+                    </span>
+                  </div>
+                </td>
 
-						<th
-							scope='col'
-							className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'
-						>
-							Featured
-						</th>
-						<th
-							scope='col'
-							className='px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider'
-						>
-							Actions
-						</th>
-					</tr>
-				</thead>
+                <td className="px-6 py-4 font-medium text-gray-700">
+                  ₹{Number(product.price).toFixed(2)}
+                </td>
 
-				<tbody className='bg-gray-800 divide-y divide-gray-700'>
-					{products?.map((product) => (
-						<tr key={product._id} className='hover:bg-gray-700'>
-							<td className='px-6 py-4 whitespace-nowrap'>
-								<div className='flex items-center'>
-									<div className='flex-shrink-0 h-10 w-10'>
-										<img
-											className='h-10 w-10 rounded-full object-cover'
-											src={product.image}
-											alt={product.name}
-										/>
-									</div>
-									<div className='ml-4'>
-										<div className='text-sm font-medium text-white'>{product.name}</div>
-									</div>
-								</div>
-							</td>
-							<td className='px-6 py-4 whitespace-nowrap'>
-								<div className='text-sm text-gray-300'>${product.price.toFixed(2)}</div>
-							</td>
-							<td className='px-6 py-4 whitespace-nowrap'>
-								<div className='text-sm text-gray-300'>{product.category}</div>
-							</td>
-							<td className='px-6 py-4 whitespace-nowrap'>
-								<button
-									onClick={() => toggleFeaturedProduct(product._id)}
-									className={`p-1 rounded-full ${
-										product.isFeatured ? "bg-yellow-400 text-gray-900" : "bg-gray-600 text-gray-300"
-									} hover:bg-yellow-500 transition-colors duration-200`}
-								>
-									<Star className='h-5 w-5' />
-								</button>
-							</td>
-							<td className='px-6 py-4 whitespace-nowrap text-sm font-medium'>
-								<button
-									onClick={() => deleteProduct(product._id)}
-									className='text-red-400 hover:text-red-300'
-								>
-									<Trash className='h-5 w-5' />
-								</button>
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</motion.div>
-	);
+                <td className="px-6 py-4">
+                  <span className="rounded-full bg-gray-100 px-3 py-1 text-sm">
+                    {product.category}
+                  </span>
+                </td>
+
+                <td className="px-6 py-4 text-center">
+                  <button
+                    onClick={() => toggleFeaturedProduct(product._id)}
+                    className={`p-2 rounded-full transition ${
+                      product.isFeatured
+                        ? "bg-yellow-400 text-black"
+                        : "bg-gray-200 text-gray-600"
+                    }`}
+                  >
+                    <Star size={18} />
+                  </button>
+                </td>
+
+                <td className="px-6 py-4 text-center">
+                  <button
+                    onClick={() => deleteProduct(product._id)}
+                    className="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition"
+                  >
+                    <Trash size={18} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="grid gap-4 lg:hidden">
+        {products?.map((product) => (
+          <div
+            key={product._id}
+            className="bg-white rounded-2xl shadow-md border border-gray-100 p-4"
+          >
+            <div className="flex gap-4">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-20 h-20 rounded-xl object-cover"
+              />
+
+              <div className="flex-1">
+                <h3 className="font-bold text-gray-800">
+                  {product.name}
+                </h3>
+
+                <p className="text-gray-500 text-sm mt-1">
+                  {product.category}
+                </p>
+
+                <p className="font-semibold text-lg mt-2">
+                  ₹{Number(product.price).toFixed(2)}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-between mt-4 pt-4 border-t">
+              <button
+                onClick={() => toggleFeaturedProduct(product._id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
+                  product.isFeatured
+                    ? "bg-yellow-400 text-black"
+                    : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                <Star size={18} />
+                Featured
+              </button>
+
+              <button
+                onClick={() => deleteProduct(product._id)}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-100 text-red-600"
+              >
+                <Trash size={18} />
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {products?.length === 0 && (
+        <div className="text-center py-16 bg-white rounded-2xl shadow">
+          <h3 className="text-xl font-semibold text-gray-700">
+            No Products Found
+          </h3>
+          <p className="text-gray-500 mt-2">
+            Add your first product from the Create Product tab.
+          </p>
+        </div>
+      )}
+    </motion.div>
+  );
 };
 
-export default ProductsList
+export default ProductsList;

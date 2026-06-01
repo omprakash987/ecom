@@ -22,7 +22,7 @@ const AdminPage = () => {
   }, [fetchAllProducts]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16 px-4">
+    <div className="min-h-screen bg-gray-50 py-16 px-4 mt-20">
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}

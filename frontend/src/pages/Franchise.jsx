@@ -89,7 +89,7 @@ const plans = [
     monthlyRevenue: "₹11.5L+",
     color: "#6366f1",
     features: [
-      "Inventory worth ₹5,00,000",
+      "Inventory worth ₹9,00,000",
       "Premium flagship store setup",
       "Website + app integration",
       "10-day elite training program",
@@ -127,7 +127,7 @@ const faqs = [
   },
   {
     q: "Is there a royalty or monthly fee?",
-    a: "We charge a minimal monthly platform fee of ₹2,000–₹5,000 depending on your plan. No hidden royalty cuts on your sales — your margins are yours to keep.",
+    a: "We will charge a minimal monthly royalty of 7% of your Net Profit. No hidden charges on your sales, your margins are yours to keep",
   },
   {
     q: "How is territory exclusivity enforced?",
